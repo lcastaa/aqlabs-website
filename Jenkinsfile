@@ -5,60 +5,22 @@ pipeline {
         stage('Building project using ./mvnw ...') {
             steps {
                 sh 'bash ./mvnw clean install -Dmaven.test.skip=true'
-            }
-        }
-
-        stage('Checking for the JAR artifact...') {
-            steps {
+                // Capture the path to the generated JAR file
                 script {
-                    def artifactPath = sh(
-                        script: 'ls target/*.jar',
-                        returnStdout: true
-                    ).trim()
-                    if (artifactPath.empty) {
-                        error 'Artifact not found'
-                    }
-                    echo "Artifact found at ${artifactPath}"
+                    def jarPath = sh(returnStdout: true, script: "find target -name '*.jar'")
+                    env.JAR_PATH = jarPath.trim()
                 }
             }
         }
 
-        stage('Stopping and removing the previous container...') {
+        stage('Send File via HTTP') {
             steps {
                 script {
-                    def containerName = "Aqlabs"
+                    def jarPath = env.JAR_PATH
+                    def receiverUrl = 'http://192.168.0.121:5000/receive'
 
-                    // Stop and delete the container if it is running
-                    try {
-                        sh "docker stop $containerName || true"
-                        sh "docker rm $containerName || true"
-                        echo "Container $containerName stopped and removed."
-                    } catch (Exception e) {
-                        echo "Failed to stop/remove container $containerName: ${e.getMessage()}"
-                    }
+                    sh "curl -X POST -F 'file=@${jarPath}' ${receiverUrl}"
                 }
-            }
-        }
-
-        stage('Removing previous docker image and building new image...') {
-            steps {
-                script {
-                    def imageName = "your_image_name"  // Replace with your actual image name
-
-                    // Try to remove the old image if it exists (ignore errors if it doesn't)
-                    sh "docker rmi -f $imageName || true"
-
-                    // Build a new image from the current context
-                    sh "docker build -t $imageName ."
-
-                    echo "Docker image $imageName removed and replaced with a new one."
-                }
-            }
-        }
-
-        stage('Creating and deploying new container...') {
-            steps {
-                sh 'sudo docker-compose up --force-recreate -d'
             }
         }
     }
