@@ -24,7 +24,7 @@ pipeline {
 
                     def status = sh(returnStatus: true, script: curlCommand).toInteger()
 
-                    if (status == 200) {
+                    if (status == '200') {
                         echo "File successfully received by the server."
                     } else {
                         error "Failed to receive the file. HTTP response code: ${status}"
