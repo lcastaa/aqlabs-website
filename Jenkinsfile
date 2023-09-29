@@ -19,11 +19,14 @@ pipeline {
                     def jarPath = env.JAR_PATH
                     def receiverUrl = 'http://192.168.0.121:5000/receive'
 
-                    // Send the JAR file via HTTP and capture the response
-                    def httpResponse = sh(
+                    // Send the JAR file via HTTP and capture the complete response
+                    def curlOutput = sh(
                         returnStatus: true,
                         script: "curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"
-                    ).toString().trim()
+                    )
+                    def httpResponse = curlOutput.trim()
+
+                    echo "curl command output: ${curlOutput}" // Add this line for debugging
 
                     if (httpResponse.toInteger() == 200) {
                         echo "File successfully received by the server."
