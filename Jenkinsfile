@@ -32,16 +32,16 @@ pipeline {
             }
         }
     }
-}
 
-post {
-    success {
-        script {
-            def payload = env.payload
-            if (payload == 'success') {
-                echo 'File received and accepted, pipeline passes.'
-            } else {
-                error 'File acceptance confirmation failed, pipeline fails.'
+    post {
+        success {
+            script {
+                def payload = env.payload
+                if (payload == 'success') {
+                    echo 'File received and accepted, pipeline passes.'
+                } else {
+                    error 'File acceptance confirmation failed, pipeline fails.'
+                }
             }
         }
     }
