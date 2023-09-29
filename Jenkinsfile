@@ -27,7 +27,7 @@ pipeline {
                     if (status == 200) {
                         echo "File successfully received by the server."
                     } else {
-                        error "Failed to receive the file. HTTP response code: ${httpResponse}"
+                        error "Failed to receive the file. HTTP response code: ${status}"
                     }
                 }
             }
