@@ -23,7 +23,7 @@ pipeline {
                     def curlCommand = """curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"""
 
                     // Execute the curl command and capture its output and exit code
-                    def curlOutput = sh(script: curlCommand, returnStatus: true, returnStdout: true).trim()
+                    def curlOutput = sh(script: curlCommand, returnStatus: true, returnStdout: true)
                     def status = curlOutput.toInteger()
 
                     if (status == 200) {
