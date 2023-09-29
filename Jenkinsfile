@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    triggers {
+        GenericTrigger(
+            genericVariables: [
+                [key: 'payload', expressionType: 'JSONPath', expression: '$.status'],
+            ]
+        )
+    }
+
     stages {
         stage('Building project using ./mvnw ...') {
             steps {
@@ -26,24 +34,14 @@ pipeline {
     }
 }
 
-// Use the Generic Webhook Trigger to receive POST requests without a token
-triggers {
-    GenericTrigger(
-        genericVariables: [
-            [key: 'payload', expressionType: 'JSONPath', expression: '$.message'],
-        ]
-    )
-}
-
 post {
     success {
         script {
-            // Handle the webhook payload here
             def payload = env.payload
-            if (payload == 'File received and accepted') {
-                echo 'File received and pipeline confirmed acceptance'
+            if (payload == 'success') {
+                echo 'File received and accepted, pipeline passes.'
             } else {
-                error 'File acceptance confirmation failed'
+                error 'File acceptance confirmation failed, pipeline fails.'
             }
         }
     }
