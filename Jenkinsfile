@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Building project using ./mvnw ...') {
+        stage('Building project using mvnw script') {
             steps {
                 sh 'bash ./mvnw clean install -Dmaven.test.skip=true'
                 // Capture the path to the generated JAR file
