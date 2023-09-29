@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     def jarPath = env.JAR_PATH
-                    def receiverUrl = 'http://192.168.0.121:5000/receive-endpoint'
+                    def receiverUrl = 'http://192.168.0.121:5000/receive'
 
                     sh "curl -X POST -F 'file=@${jarPath}' ${receiverUrl}"
                 }
