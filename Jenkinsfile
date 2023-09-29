@@ -22,7 +22,7 @@ pipeline {
                     // Construct the curl command with variable interpolation
                     def curlCommand = """curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"""
 
-                    if (sh(returnStatus: true, script: curlCommand).trim() == 200) {
+                    if (sh(returnStatus: true, script: curlCommand) == 200) {
                         echo "File successfully received by the server."
                     } else {
                         error "Failed to receive the file. HTTP response code: ${httpResponse}"
