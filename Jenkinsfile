@@ -25,7 +25,7 @@ pipeline {
                         script: "curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"
                     ).toString().trim()
 
-                    if (httpResponse == 200) {
+                    if (httpResponse.toInteger() == 200) {
                         echo "File successfully received by the server."
                     } else {
                         error "Failed to receive the file. HTTP response code: ${httpResponse}"
