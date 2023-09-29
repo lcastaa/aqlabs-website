@@ -1,14 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        GenericTrigger(
-            genericVariables: [
-                [key: 'payload', expressionType: 'JSONPath', expression: '$.'],
-            ]
-        )
-    }
-
     stages {
         stage('Building project using ./mvnw ...') {
             steps {
@@ -27,21 +19,25 @@ pipeline {
                     def jarPath = env.JAR_PATH
                     def receiverUrl = 'http://192.168.0.121:5000/receive'
 
-                    sh "curl -X POST -F 'file=@${jarPath}' ${receiverUrl}"
+                    // Send the JAR file via HTTP and capture the response
+                    def httpResponse = sh(
+                        returnStatus: true,
+                        script: "curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"
+                    ).trim()
+
+                    if (httpResponse == '200') {
+                        echo "File successfully received by the server."
+                    } else {
+                        error "Failed to receive the file. HTTP response code: ${httpResponse}"
+                    }
                 }
             }
         }
-    }
 
-    post {
-        success {
-            script {
-                def payload = env.payload
-                if (payload == 'success') {
-                    echo 'File received and accepted, pipeline passes.'
-                } else {
-                    error 'File acceptance confirmation failed, pipeline fails.'
-                }
+        stage('Next Stage') {
+            steps {
+                // Add your next stage tasks here
+                echo "This is the next stage."
             }
         }
     }
