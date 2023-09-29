@@ -20,15 +20,15 @@ pipeline {
                     def receiverUrl = 'http://192.168.0.121:5000/receive'
 
                     // Construct the curl command with variable interpolation
-                    def curlCommand = """curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"""
+                    def curlCommand = """curl -X POST -F 'file=@${jarPath}' ${receiverUrl}"""
 
                     // Execute the curl command and capture the HTTP response code
                     def httpResponse = sh(returnStatus: true, script: curlCommand).trim()
 
                     echo "HTTP Response Code: ${httpResponse}"
 
-                    if (httpResponse.toInteger() == 200) {
-                        echo "File successfully received by the server."
+                    if (httpResponse == 'File successfully received by the server.') {
+                        echo "File transfer works."
                     } else {
                         error "Failed to receive the file. HTTP response code: ${httpResponse}"
                     }
