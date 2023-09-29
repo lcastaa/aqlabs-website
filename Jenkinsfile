@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Building project using mvnw script') {
+        stage('Building project using ./mvnw ...') {
             steps {
                 sh 'bash ./mvnw clean install -Dmaven.test.skip=true'
                 // Capture the path to the generated JAR file
@@ -23,7 +23,7 @@ pipeline {
                     def httpResponse = sh(
                         returnStatus: true,
                         script: "curl -o /dev/null -w '%{http_code}' -X POST -F 'file=@${jarPath}' ${receiverUrl}"
-                    ).trim()
+                    ).toString().trim()
 
                     if (httpResponse == '200') {
                         echo "File successfully received by the server."
