@@ -1,0 +1,53 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Apply a dark background color to the entire page */
+body {
+    background-color: #121212;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+}
+
+/* Style the container to hold the sidebar and content */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Style the sidebar */
+.sidebar {
+    width: 275px;
+    background-color: #1e1e1e;
+    padding: 20px;
+}
+
+.sidebar-header {
+    padding-bottom: 50px;
+}
+
+.sidebar-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-links li {
+    margin-bottom: 10px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    font-size: 18px;
+}
+
+/* Style the content area */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
