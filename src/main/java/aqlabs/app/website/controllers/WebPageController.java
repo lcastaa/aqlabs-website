@@ -13,28 +13,6 @@ public class WebPageController {
     }
 
 
-    //End-points for Java SE 8 Developer Prep
-    @GetMapping("/java")
-    public String getJavaPrep(){
-        return "java";
-    }
-
-
-    //End-points for Linux With Raspberry Pi
-    @GetMapping("/linux")
-    public String getLinuxWithPi(){
-        return "linux";
-    }
-
-
-    //End-points for Docker Guide
-    @GetMapping("/docker")
-    public String getDocker(){
-        return "docker";
-    }
-
-
-
     //End-points for Resume
     @GetMapping("/resume")
     public String getResume (){
@@ -42,6 +20,33 @@ public class WebPageController {
     }
 
 
+    @GetMapping("/java")
+    public String getJava(){
+        return "java";
+    }
 
 
+    @GetMapping("/linux")
+    public String getLinux(){
+        return "linux";
+    }
+
+
+    @GetMapping("/python")
+    public String getPython(){
+        return "python";
+    }
+
+
+    @GetMapping("/docker")
+    public String getDocker(){
+        return "docker";
+    }
+
+
+    @GetMapping("/projects")
+    public String getProjects(){ return "projects"; }
+
+    @GetMapping("/underconstruction")
+    public String getUnderConstruction(){ return "underconstruction";}
 }
