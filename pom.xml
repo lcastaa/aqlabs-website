@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>aqlabs.app</groupId>
 	<artifactId>website</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>aqlabs.v.1.0</version>
 	<name>website</name>
 	<description>aqlabs.xyz website application</description>
 	<properties>
