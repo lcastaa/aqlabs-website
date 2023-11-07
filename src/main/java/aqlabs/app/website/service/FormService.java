@@ -1,0 +1,68 @@
+package aqlabs.app.website.service;
+
+// Habdels the data from the Controller(Form Controller) and retruns A Response Entity
+
+import aqlabs.app.website.models.ContactForm;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.StringJoiner;
+
+@Service
+@Component
+public class FormService {
+
+    private static String currentFileName = null;
+
+    public ResponseEntity<?> handleContactForm(ContactForm form){
+
+        // Create a new log file if it's a new day or if the program just started
+        createNewLogFileIfNeeded();
+
+        // Your variables to write to the log file
+        String dataToWrite = "Name: "+form.getName()+"\n" +"Email: "+form.getEmail()+"\n" +"Message: "+form.getMessage()+"\n"+"\n";
+
+        // Write data to the current log file
+        if(writeDataToFile(dataToWrite)){
+            return ResponseEntity.ok("Form Successfully Processed");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+
+
+
+    }
+
+    private static void createNewLogFileIfNeeded() {
+        // Get the current date
+        String newFileName = "Inquries: " + new SimpleDateFormat("MM-dd-yyyy").format(new Date()) + ".log";
+
+        if (currentFileName == null || !currentFileName.equals(newFileName)) {
+            currentFileName = newFileName;
+            // Create a new log file
+            try {
+                FileWriter fileWriter = new FileWriter(currentFileName, true);
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static Boolean writeDataToFile(String data) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(currentFileName, true));
+            writer.write(data + "\n");
+            writer.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+}

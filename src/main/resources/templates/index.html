@@ -5,6 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="./css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 		<noscript><link rel="stylesheet" href="./css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -90,7 +91,7 @@
 						<p>Want to collaborate in a project, or have a request for a new tutorial, or have any questions please do not hesitate to reach out!</p>
 						<div class="split style1">
 							<section>
-								<form method="post" action="#">
+								<form id="myForm">
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Name</label>
@@ -105,10 +106,9 @@
 											<textarea name="message" id="message" rows="5"></textarea>
 										</div>
 									</div>
-									<ul class="actions">
-											<li><a href="" class="button submit">Send Message</a></li>
-										</ul>
+									<button class="button submit" id="contact-form-button">Send Message</button>
 								</form>
+								<div id="message-container"></div>
 							</section>
 							<section>
 								<ul class="contact">
@@ -175,6 +175,9 @@
 			<script src="./js/breakpoints.min.js"></script>
 			<script src="./js/util.js"></script>
 			<script src="./js/main.js"></script>
+			<script src="./js/form.processor.js"></script>
+		    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 
 	</body>
 </html>
