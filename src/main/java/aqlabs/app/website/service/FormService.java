@@ -1,6 +1,6 @@
 package aqlabs.app.website.service;
 
-// Habdels the data from the Controller(Form Controller) and retruns A Response Entity
+// Handles the data from the Controller(Form Controller) and returns A Response Entity
 
 import aqlabs.app.website.models.ContactForm;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.StringJoiner;
 
 @Service
 @Component
@@ -29,7 +27,7 @@ public class FormService {
 
         // Write data to the current log file
         if(writeDataToFile(dataToWrite)){
-            return ResponseEntity.ok("Form Successfully Processed");
+            return ResponseEntity.ok("{" + "Server Message" + ":" + "Request Sent" + "}");
         } else {
             return ResponseEntity.badRequest().build();
         }
@@ -40,7 +38,7 @@ public class FormService {
 
     private static void createNewLogFileIfNeeded() {
         // Get the current date
-        String newFileName = "Inquries: " + new SimpleDateFormat("MM-dd-yyyy").format(new Date()) + ".log";
+        String newFileName = "Submitted_Forms_" + new SimpleDateFormat("MM-dd-yyyy").format(new Date()) + ".log";
 
         if (currentFileName == null || !currentFileName.equals(newFileName)) {
             currentFileName = newFileName;
@@ -49,7 +47,7 @@ public class FormService {
                 FileWriter fileWriter = new FileWriter(currentFileName, true);
                 fileWriter.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("File Was Not Created Due to an error");
             }
         }
     }
@@ -61,7 +59,7 @@ public class FormService {
             writer.close();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error Writing to file");
             return false;
         }
     }

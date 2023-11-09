@@ -1,42 +1,34 @@
 // Define a function to send the form data
-function sendFormData(formData) {
+async function sendFormData() {
 
-    return fetch('/api/v1/form/contact', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    })
-    .then(response => response.json());
-}
+    try {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
 
-// Define a function to handle the form submission
-function handleFormSubmission(event) {
-    event.preventDefault();
+        const formData = {
+            name,
+            email,
+            message,
+        };
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-
-    const formData = {
-        name,
-        email,
-        message,
-    };
-
-    sendFormData(formData)
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Message sent successfully');
-            } else {
-                alert('Failed to send message');
-            }
+        const response = await fetch('/api/v1/form/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
         });
+
+        if (response.ok) {
+            alert("Message Sent");
+        } else {
+            alert("Message Not Send");
+            throw new Error("Sending form data failed.");
+        }
+    } catch (error) {
+        console.error("Sending form data failed:", error.message);
+    }
 }
 
-// Attach the event listener to the button
-document.getElementById("contact-form-button").addEventListener('click', handleFormSubmission);
-
-// Attach the event listener to the button
-document.getElementById("contact-form-button").addEventListener('click', handleFormSubmission);
+document.getElementById("contact-form-button").addEventListener('click', sendFormData);
