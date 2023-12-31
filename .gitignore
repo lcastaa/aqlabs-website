@@ -7,7 +7,7 @@ target/
 # key.properties
 **/*.keystore
 **/*.jks
-**/*.properties
+
 
 ### STS ###
 .apt_generated
