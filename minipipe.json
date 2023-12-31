@@ -1,0 +1,6 @@
+{
+  "container_name" : "aqlabs-site",
+  "image_name" : "aqlabs-site",
+  "output_filename" : "website-aqlabs.v.1.0",
+  "args" : "--network aqlabs-network -d -p 8443:8443"
+}
